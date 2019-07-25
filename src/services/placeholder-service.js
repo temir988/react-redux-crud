@@ -13,7 +13,71 @@ export default class PlaceholderService {
   };
 
   getPosts = async () => {
-    const res = await this.getResource("/posts/");
-    return res;
+    const res = await fetch(`${this._apiBase}/posts/`);
+
+    if (!res.ok) {
+      throw new Error(`Could not fetch '/posts', received ${res.status}`);
+    }
+
+    const json = await res.json();
+    return json;
+  };
+
+  createPost = async (title, body) => {
+    const res = await fetch(`${this._apiBase}/posts`, {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        body,
+        userId: 1
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+
+    if (!res.ok) {
+      throw new Error(`Cannot create post, received ${res.status}`);
+    }
+
+    const json = await res.json();
+    return json;
+  };
+
+  deletePost = async id => {
+    const res = await fetch(`${this._apiBase}/posts/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+
+    if (!res.ok) {
+      throw new Error(`Cannot create post, received ${res.status}`);
+    }
+
+    const json = await res.json();
+    return json;
+  };
+
+  updatePost = async (id, title, body) => {
+    const res = await fetch(`${this._apiBase}/posts/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        title,
+        body,
+        userId: 1
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+
+    if (!res.ok) {
+      throw new Error(`Cannot create post, received ${res.status}`);
+    }
+
+    const json = await res.json();
+    return json;
   };
 }
