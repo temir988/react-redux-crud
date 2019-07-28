@@ -1,17 +1,6 @@
 export default class PlaceholderService {
   _apiBase = "https://jsonplaceholder.typicode.com";
 
-  getResource = async url => {
-    const res = await fetch(`${this._apiBase}${url}`);
-
-    if (!res.ok) {
-      throw new Error(`Could not fetch ${url}, received ${res.status}`);
-    }
-
-    const body = await res.json();
-    return body;
-  };
-
   getPosts = async () => {
     const res = await fetch(`${this._apiBase}/posts/`);
 
@@ -20,7 +9,7 @@ export default class PlaceholderService {
     }
 
     const json = await res.json();
-    return json;
+    return json.map(this._transfromPosts);
   };
 
   createPost = async (title, body) => {
@@ -41,7 +30,7 @@ export default class PlaceholderService {
     }
 
     const json = await res.json();
-    return json;
+    return json._transfromPosts;
   };
 
   deletePost = async id => {
@@ -53,7 +42,7 @@ export default class PlaceholderService {
     });
 
     if (!res.ok) {
-      throw new Error(`Cannot create post, received ${res.status}`);
+      throw new Error(`Cannot delete post, received ${res.status}`);
     }
 
     const json = await res.json();
@@ -74,10 +63,17 @@ export default class PlaceholderService {
     });
 
     if (!res.ok) {
-      throw new Error(`Cannot create post, received ${res.status}`);
+      throw new Error(`Cannot update post, received ${res.status}`);
     }
 
     const json = await res.json();
     return json;
+  };
+
+  _transfromPosts = post => {
+    return {
+      editing: false,
+      ...post
+    };
   };
 }

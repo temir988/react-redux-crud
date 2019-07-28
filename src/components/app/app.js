@@ -1,6 +1,7 @@
 import React from "react";
 import AllPosts from "../all-posts";
 import "./app.css";
+import PostForm from "../post-form/post-form";
 
 class App extends React.Component {
   // componentDidMount() {
@@ -29,12 +30,18 @@ class App extends React.Component {
     return (
       <div>
         <div className="container">
-          <h1>Hello world</h1>
+          <div className="row">
+            <div className="col-md-8 offset-md-2">
+              <h1 className="mb-4">Hello world</h1>
 
-          <AllPosts />
-          <button onClick={this.createHandler} className="btn btn-primary">
-            Create
-          </button>
+              <PostForm />
+              <AllPosts />
+
+              <button onClick={this.createHandler} className="btn btn-primary">
+                Create
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );

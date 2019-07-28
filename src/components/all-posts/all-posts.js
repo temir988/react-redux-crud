@@ -5,6 +5,7 @@ import { postsLoaded } from "../../actions";
 
 import PlaceholderService from "../../services/placeholder-service";
 import "./all-posts.css";
+
 class AllPosts extends React.Component {
   placeholderService = new PlaceholderService();
 
@@ -15,11 +16,10 @@ class AllPosts extends React.Component {
   }
 
   renderPosts = el => {
-    return <Post title={el.title} body={el.body} key={el.id} />;
+    return <Post title={el.title} body={el.body} key={el.id} id={el.id} />;
   };
 
   render() {
-    console.log(this.props);
     return (
       <div className="list-group">{this.props.posts.map(this.renderPosts)}</div>
     );
