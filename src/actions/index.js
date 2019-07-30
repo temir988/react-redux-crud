@@ -12,4 +12,11 @@ const createPost = newPost => {
   };
 };
 
-export { createPost, postsLoaded };
+const editPost = currentPost => {
+  return {
+    type: "EDIT_POST",
+    payload: currentPost
+  };
+};
+
+export { createPost, postsLoaded, editPost };

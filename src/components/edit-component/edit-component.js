@@ -1,28 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import PlaceholderService from "../../services/placeholder-service";
-import "./post-form.css";
 
-class PostForm extends Component {
+import "./edit-component.css";
+
+class EditComponent extends React.Component {
   placeholderService = new PlaceholderService();
+
   handleSubmit = e => {
     e.preventDefault();
-    const title = this.getTitle.value;
-    const body = this.getMessage.value;
-    this.placeholderService.createPost(title, body).then(result => {
-      this.props.dispatch({
-        type: "ADD_POST",
-        payload: result
+    const newTitle = this.getTitle.value;
+    const newMessage = this.getMessage.value;
+    this.placeholderService
+      .updatePost(this.props.id, newTitle, newMessage)
+      .then(res => {
+        console.log(res);
+        this.props.dispatch({ type: "UPDATE_POST", payload: res });
       });
-      this.getTitle.value = "";
-      this.getMessage.value = "";
-    });
+  };
+  cancelEdit = e => {
+    this.props.dispatch({ type: "EDIT_POST", id: this.props.id });
   };
   render() {
     return (
       <div className="card border-secondary mb-3">
         <form onSubmit={this.handleSubmit}>
-          <div className="card-header">Creating post</div>
+          <div className="card-header">Updating post</div>
           <div className="card-body">
             <div className="card-text">
               <div className="form-group">
@@ -32,24 +35,31 @@ class PostForm extends Component {
                   type="text"
                   ref={input => (this.getTitle = input)}
                   placeholder="Enter Post Title"
+                  defaultValue={this.props.title}
                 />
               </div>
               <div className="form-group">
                 <textarea
                   className="form-control"
                   required
+                  ref={input => (this.getMessage = input)}
                   rows="5"
                   cols="28"
-                  ref={input => (this.getMessage = input)}
                   placeholder="Enter Post"
+                  defaultValue={this.props.body}
                 />
               </div>
             </div>
           </div>
           <div className="card-footer">
             <div className="buttons">
-              <button className="btn btn-success mr-1 btn-sm">Create</button>
-              <button className="btn btn-danger btn-sm">Cancel</button>
+              <button className="btn btn-success mr-1 btn-sm">Update</button>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={this.cancelEdit}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </form>
@@ -57,4 +67,5 @@ class PostForm extends Component {
     );
   }
 }
-export default connect()(PostForm);
+
+export default connect()(EditComponent);

@@ -24,7 +24,14 @@ class Post extends React.Component {
         </div>
         <div className="card-footer">
           <div className="buttons">
-            <button className="btn btn-info btn-sm mr-1">Update</button>
+            <button
+              className="btn btn-info btn-sm mr-1"
+              onClick={() =>
+                this.props.dispatch({ type: "EDIT_POST", id: this.props.id })
+              }
+            >
+              Update
+            </button>
             <button
               className="btn btn-danger btn-sm"
               onClick={() => this.deleteHandler(this.props.id)}

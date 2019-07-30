@@ -30,7 +30,7 @@ export default class PlaceholderService {
     }
 
     const json = await res.json();
-    return json._transfromPosts;
+    return this._transfromPosts(json);
   };
 
   deletePost = async id => {
@@ -67,7 +67,7 @@ export default class PlaceholderService {
     }
 
     const json = await res.json();
-    return json;
+    return this._transfromPosts(json);
   };
 
   _transfromPosts = post => {
