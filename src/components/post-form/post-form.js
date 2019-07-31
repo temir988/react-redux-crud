@@ -49,7 +49,6 @@ class PostForm extends Component {
           <div className="card-footer">
             <div className="buttons">
               <button className="btn btn-success mr-1 btn-sm">Create</button>
-              <button className="btn btn-danger btn-sm">Cancel</button>
             </div>
           </div>
         </form>

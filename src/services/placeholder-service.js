@@ -73,6 +73,7 @@ export default class PlaceholderService {
   _transfromPosts = post => {
     return {
       editing: false,
+      loading: false,
       ...post
     };
   };

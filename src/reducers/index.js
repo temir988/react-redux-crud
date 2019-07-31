@@ -2,6 +2,10 @@ const reducer = (state = [], action) => {
   switch (action.type) {
     case "POSTS_LOADED":
       return action.payload;
+    case "POST_LOAD":
+      return state.map(post =>
+        post.id === action.id ? { ...post, loading: !post.loading } : post
+      );
     case "ADD_POST":
       return state.concat(action.payload);
     case "DELETE_POST":

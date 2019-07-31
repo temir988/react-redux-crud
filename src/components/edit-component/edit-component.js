@@ -3,28 +3,44 @@ import { connect } from "react-redux";
 import PlaceholderService from "../../services/placeholder-service";
 
 import "./edit-component.css";
+import Loader from "../loader";
 
 class EditComponent extends React.Component {
   placeholderService = new PlaceholderService();
 
-  handleSubmit = e => {
+  handleSubmit = (e, id) => {
     e.preventDefault();
+    this.props.dispatch({
+      type: "POST_LOAD",
+      id
+    });
     const newTitle = this.getTitle.value;
     const newMessage = this.getMessage.value;
-    this.placeholderService
-      .updatePost(this.props.id, newTitle, newMessage)
-      .then(res => {
-        console.log(res);
-        this.props.dispatch({ type: "UPDATE_POST", payload: res });
+    this.placeholderService.updatePost(id, newTitle, newMessage).then(res => {
+      this.props.dispatch({
+        type: "POST_LOAD",
+        id
       });
+      this.props.dispatch({ type: "UPDATE_POST", payload: res });
+    });
   };
   cancelEdit = e => {
     this.props.dispatch({ type: "EDIT_POST", id: this.props.id });
   };
   render() {
+    const { title, body, id, loading } = this.props.post;
+
+    if (loading) {
+      return (
+        <div className="card border-secondary mb-3 p-4">
+          <Loader />
+        </div>
+      );
+    }
+
     return (
       <div className="card border-secondary mb-3">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={e => this.handleSubmit(e, id)}>
           <div className="card-header">Updating post</div>
           <div className="card-body">
             <div className="card-text">
@@ -35,7 +51,7 @@ class EditComponent extends React.Component {
                   type="text"
                   ref={input => (this.getTitle = input)}
                   placeholder="Enter Post Title"
-                  defaultValue={this.props.title}
+                  defaultValue={title}
                 />
               </div>
               <div className="form-group">
@@ -46,7 +62,7 @@ class EditComponent extends React.Component {
                   rows="5"
                   cols="28"
                   placeholder="Enter Post"
-                  defaultValue={this.props.body}
+                  defaultValue={body}
                 />
               </div>
             </div>

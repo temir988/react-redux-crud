@@ -21,14 +21,13 @@ class AllPosts extends React.Component {
 
   renderPosts = el => {
     return el.editing ? (
-      <EditComponent title={el.title} body={el.body} key={el.id} id={el.id} />
+      <EditComponent post={el} key={el.id} />
     ) : (
-      <Post title={el.title} body={el.body} key={el.id} id={el.id} />
+      <Post post={el} key={el.id} />
     );
   };
 
   render() {
-    console.log(this.loading);
     return this.loading ? (
       <Loader />
     ) : (
