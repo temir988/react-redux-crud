@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { createPost } from "../../actions";
 import PlaceholderService from "../../services/placeholder-service";
 import "./post-form.css";
 
@@ -10,10 +11,7 @@ class PostForm extends Component {
     const title = this.getTitle.value;
     const body = this.getMessage.value;
     this.placeholderService.createPost(title, body).then(result => {
-      this.props.dispatch({
-        type: "ADD_POST",
-        payload: result
-      });
+      this.props.dispatch(createPost(result));
       this.getTitle.value = "";
       this.getMessage.value = "";
     });

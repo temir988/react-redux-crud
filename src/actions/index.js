@@ -5,18 +5,39 @@ const postsLoaded = posts => {
   };
 };
 
+const loadPost = id => {
+  return {
+    type: "POST_LOAD",
+    id
+  };
+};
+
 const createPost = newPost => {
   return {
-    type: "CREATE_POST",
+    type: "ADD_POST",
     payload: newPost
   };
 };
 
-const editPost = currentPost => {
+const deletePost = id => {
   return {
-    type: "EDIT_POST",
-    payload: currentPost
+    type: "DELETE_POST",
+    id
   };
 };
 
-export { createPost, postsLoaded, editPost };
+const editPost = id => {
+  return {
+    type: "EDIT_POST",
+    id
+  };
+};
+
+const updatePost = post => {
+  return {
+    type: "UPDATE_POST",
+    payload: post
+  };
+};
+
+export { createPost, postsLoaded, editPost, updatePost, deletePost, loadPost };

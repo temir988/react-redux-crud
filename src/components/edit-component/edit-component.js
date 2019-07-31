@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
+import { loadPost, editPost, updatePost } from "../../actions";
 import PlaceholderService from "../../services/placeholder-service";
-
 import "./edit-component.css";
 import Loader from "../loader";
 
@@ -10,22 +10,16 @@ class EditComponent extends React.Component {
 
   handleSubmit = (e, id) => {
     e.preventDefault();
-    this.props.dispatch({
-      type: "POST_LOAD",
-      id
-    });
+    this.props.dispatch(loadPost(id));
     const newTitle = this.getTitle.value;
     const newMessage = this.getMessage.value;
     this.placeholderService.updatePost(id, newTitle, newMessage).then(res => {
-      this.props.dispatch({
-        type: "POST_LOAD",
-        id
-      });
-      this.props.dispatch({ type: "UPDATE_POST", payload: res });
+      this.props.dispatch(loadPost(id));
+      this.props.dispatch(updatePost(res));
     });
   };
-  cancelEdit = e => {
-    this.props.dispatch({ type: "EDIT_POST", id: this.props.id });
+  cancelEdit = id => {
+    this.props.dispatch(editPost(id));
   };
   render() {
     const { title, body, id, loading } = this.props.post;
@@ -72,7 +66,7 @@ class EditComponent extends React.Component {
               <button className="btn btn-success mr-1 btn-sm">Update</button>
               <button
                 className="btn btn-danger btn-sm"
-                onClick={this.cancelEdit}
+                onClick={() => this.cancelEdit(id)}
               >
                 Cancel
               </button>

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { loadPost, deletePost, editPost } from "../../actions";
 import PlaceholderService from "../../services/placeholder-service";
 import "./post.css";
 import Loader from "../loader";
@@ -8,21 +9,16 @@ class Post extends React.Component {
   placeholderService = new PlaceholderService();
 
   deleteHandler = id => {
-    this.props.dispatch({
-      type: "POST_LOAD",
-      id
-    });
+    this.props.dispatch(loadPost(id));
 
     this.placeholderService.deletePost(id).then(() => {
-      this.props.dispatch({
-        type: "POST_LOAD",
-        id
-      });
-      this.props.dispatch({
-        type: "DELETE_POST",
-        id
-      });
+      this.props.dispatch(loadPost(id));
+      this.props.dispatch(deletePost(id));
     });
+  };
+
+  updateHandler = id => {
+    this.props.dispatch(editPost(id));
   };
 
   render() {
@@ -44,7 +40,7 @@ class Post extends React.Component {
           <div className="buttons">
             <button
               className="btn btn-info btn-sm mr-1"
-              onClick={() => this.props.dispatch({ type: "EDIT_POST", id })}
+              onClick={() => this.updateHandler(id)}
             >
               Update
             </button>
