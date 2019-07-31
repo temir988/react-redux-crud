@@ -7,7 +7,7 @@ const postsLoaded = posts => {
 
 const loadPost = id => {
   return {
-    type: "POST_LOAD",
+    type: "LOAD_POST",
     id
   };
 };

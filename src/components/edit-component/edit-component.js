@@ -13,10 +13,15 @@ class EditComponent extends React.Component {
     this.props.dispatch(loadPost(id));
     const newTitle = this.getTitle.value;
     const newMessage = this.getMessage.value;
-    this.placeholderService.updatePost(id, newTitle, newMessage).then(res => {
-      this.props.dispatch(loadPost(id));
-      this.props.dispatch(updatePost(res));
-    });
+    this.placeholderService
+      .updatePost(id, newTitle, newMessage)
+      .then(res => {
+        this.props.dispatch(loadPost(id));
+        this.props.dispatch(updatePost(res));
+      })
+      .catch(e => {
+        console.log("ERROR!!!", e);
+      });
   };
   cancelEdit = id => {
     this.props.dispatch(editPost(id));

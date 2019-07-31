@@ -10,6 +10,7 @@ class PostForm extends Component {
     e.preventDefault();
     const title = this.getTitle.value;
     const body = this.getMessage.value;
+
     this.placeholderService.createPost(title, body).then(result => {
       this.props.dispatch(createPost(result));
       this.getTitle.value = "";

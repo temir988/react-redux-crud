@@ -14,10 +14,6 @@ class App extends React.Component {
 
               <AllPosts />
               <PostForm />
-
-              {/* <button onClick={this.createHandler} className="btn btn-primary">
-                Create
-              </button> */}
             </div>
           </div>
         </div>
