@@ -25,6 +25,10 @@ const reducer = (state = [], action) => {
           };
         } else return post;
       });
+    case "ERROR_POST":
+      return state.map(post =>
+        post.id === action.id ? { ...post, error: !post.error } : post
+      );
     default:
       return state;
   }

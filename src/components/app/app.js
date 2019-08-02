@@ -11,7 +11,6 @@ class App extends React.Component {
           <div className="row">
             <div className="col-md-8 offset-md-2">
               <h1 className="mb-4">Hello world</h1>
-
               <AllPosts />
               <PostForm />
             </div>

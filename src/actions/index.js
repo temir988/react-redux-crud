@@ -40,4 +40,19 @@ const updatePost = post => {
   };
 };
 
-export { createPost, postsLoaded, editPost, updatePost, deletePost, loadPost };
+const errorPost = id => {
+  return {
+    type: "ERROR_POST",
+    id
+  };
+};
+
+export {
+  createPost,
+  postsLoaded,
+  editPost,
+  updatePost,
+  deletePost,
+  loadPost,
+  errorPost
+};

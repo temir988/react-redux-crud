@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { loadPost, editPost, updatePost } from "../../actions";
+import { loadPost, editPost, updatePost, errorPost } from "../../actions";
 import PlaceholderService from "../../services/placeholder-service";
 import "./edit-component.css";
 import Loader from "../loader";
+import ErrorIndicator from "../error-indicator";
 
 class EditComponent extends React.Component {
   placeholderService = new PlaceholderService();
@@ -19,15 +20,17 @@ class EditComponent extends React.Component {
         this.props.dispatch(loadPost(id));
         this.props.dispatch(updatePost(res));
       })
-      .catch(e => {
-        console.log("ERROR!!!", e);
+      .catch(() => {
+        this.props.dispatch(errorPost(id));
       });
   };
   cancelEdit = id => {
     this.props.dispatch(editPost(id));
   };
   render() {
-    const { title, body, id, loading } = this.props.post;
+    const { title, body, id, loading, error } = this.props.post;
+
+    if (error) return <ErrorIndicator />;
 
     if (loading) {
       return (

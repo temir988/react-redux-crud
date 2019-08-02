@@ -74,6 +74,7 @@ export default class PlaceholderService {
     return {
       editing: false,
       loading: false,
+      error: false,
       ...post
     };
   };

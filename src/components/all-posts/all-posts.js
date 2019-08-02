@@ -11,12 +11,16 @@ import Loader from "../loader";
 class AllPosts extends React.Component {
   placeholderService = new PlaceholderService();
   loading = true;
-
   componentDidMount() {
-    this.placeholderService.getPosts().then(results => {
-      this.loading = false;
-      this.props.dispatch(postsLoaded(results));
-    });
+    this.placeholderService
+      .getPosts()
+      .then(results => {
+        this.loading = false;
+        this.props.dispatch(postsLoaded(results));
+      })
+      .catch(() => {
+        console.error("All posts error");
+      });
   }
 
   renderPosts = el => {

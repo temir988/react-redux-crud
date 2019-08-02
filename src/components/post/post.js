@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { loadPost, deletePost, editPost } from "../../actions";
+import { loadPost, deletePost, editPost, errorPost } from "../../actions";
 import PlaceholderService from "../../services/placeholder-service";
 import "./post.css";
 import Loader from "../loader";
+import ErrorIndicator from "../error-indicator";
 
 class Post extends React.Component {
   placeholderService = new PlaceholderService();
@@ -11,10 +12,15 @@ class Post extends React.Component {
   deleteHandler = id => {
     this.props.dispatch(loadPost(id));
 
-    this.placeholderService.deletePost(id).then(() => {
-      this.props.dispatch(loadPost(id));
-      this.props.dispatch(deletePost(id));
-    });
+    this.placeholderService
+      .deletePost(id)
+      .then(() => {
+        this.props.dispatch(loadPost(id));
+        this.props.dispatch(deletePost(id));
+      })
+      .catch(() => {
+        this.props.dispatch(errorPost(id));
+      });
   };
 
   updateHandler = id => {
@@ -22,7 +28,12 @@ class Post extends React.Component {
   };
 
   render() {
-    const { title, body, id, loading } = this.props.post;
+    const { title, body, id, loading, error } = this.props.post;
+
+    if (error) {
+      return <ErrorIndicator />;
+    }
+
     if (loading) {
       return (
         <div className="card border-secondary mb-3 p-4">
